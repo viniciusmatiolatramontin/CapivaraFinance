@@ -39,15 +39,16 @@ public class UserAuth implements UserDetails, Serializable {
     @NotNull(message = "Error: Balance should not be null")
     private Double balance;
 
-    @OneToMany(mappedBy = "user")
-    private List<Entry> entries;
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    private List<FinEntry> finEntries;
 
     public UserAuth(String username, String password, String email, Double balance) {
         this.setUsername(username);
         this.setPassword(password);
         this.setEmail(email);
         this.setBalance(balance);
-        entries = new ArrayList<>();
+        finEntries = new ArrayList<>();
     }
 
     public UserAuth() {
@@ -134,8 +135,8 @@ public class UserAuth implements UserDetails, Serializable {
         this.email = email;
     }
 
-    public List<Entry> getEntries() {
-        return entries;
+    public List<FinEntry> getFinEntries() {
+        return finEntries;
     }
 
     @Override
@@ -143,11 +144,11 @@ public class UserAuth implements UserDetails, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserAuth userAuth = (UserAuth) o;
-        return Objects.equals(id, userAuth.id) && Objects.equals(username, userAuth.username) && Objects.equals(password, userAuth.password) && Objects.equals(email, userAuth.email) && Objects.equals(balance, userAuth.balance) && Objects.equals(entries, userAuth.entries);
+        return Objects.equals(id, userAuth.id) && Objects.equals(username, userAuth.username) && Objects.equals(password, userAuth.password) && Objects.equals(email, userAuth.email) && Objects.equals(balance, userAuth.balance) && Objects.equals(finEntries, userAuth.finEntries);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, balance, entries);
+        return Objects.hash(id, username, password, email, balance, finEntries);
     }
 }

@@ -1,6 +1,7 @@
 package com.ezbudget.EzBudgetAPI.model;
 
 import com.ezbudget.EzBudgetAPI.enums.EntryType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,9 +10,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-
 @Entity
-public class Entry implements Serializable {
+public class FinEntry implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -22,25 +22,27 @@ public class Entry implements Serializable {
     private String name;
 
     @NotNull(message = "Error: Value should not be null")
-    private Double value;
+    private Double entryValue;
 
     @NotNull(message = "Error: Date should not be null")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    @NotNull(message = "Error: entryType should not be null")
+    @NotNull(message = "Error: Entry Type should not be null")
     private EntryType entryType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserAuth user;
+    @JoinColumn(name = "owner_id", nullable = false)
+    private UserAuth owner;
 
-    public Entry(Long id, String name, Double value, Date date) {
+    public FinEntry(String name, Double entryValue, EntryType entryType, Date date) {
         this.setName(name);
-        this.setValue(value);
+        this.setEntryValue(entryValue);
+        this.setEntryType(entryType);
         this.setDate(date);
     }
 
-    public Entry() {
+    public FinEntry() {
 
     }
 
@@ -60,16 +62,16 @@ public class Entry implements Serializable {
         this.name = name;
     }
 
-    public Double getValue() {
-        return value;
+    public Double getEntryValue() {
+        return entryValue;
     }
 
-    public void setValue(Double value) {
-        if (value < 0) {
+    public void setEntryValue(Double entryValue) {
+        if (entryValue < 0) {
             throw new IllegalArgumentException("Error: Value should not be negative");
         }
 
-        this.value = value;
+        this.entryValue = entryValue;
     }
 
     public Date getDate() {
@@ -88,16 +90,24 @@ public class Entry implements Serializable {
         this.entryType = entryType;
     }
 
+    public UserAuth getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserAuth owner) {
+        this.owner = owner;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Entry entry = (Entry) o;
-        return Objects.equals(id, entry.id) && Objects.equals(name, entry.name) && Objects.equals(value, entry.value) && Objects.equals(date, entry.date) && entryType == entry.entryType;
+        FinEntry finEntry = (FinEntry) o;
+        return Objects.equals(id, finEntry.id) && Objects.equals(name, finEntry.name) && Objects.equals(entryValue, finEntry.entryValue) && Objects.equals(date, finEntry.date) && entryType == finEntry.entryType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, value, date, entryType);
+        return Objects.hash(id, name, entryValue, date, entryType);
     }
 }
