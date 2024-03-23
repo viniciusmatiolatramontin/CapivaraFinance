@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(custom -> custom
                         .requestMatchers("/auth/login", "/auth/register")
                         .permitAll()
-                        .requestMatchers("/entries/**")
+                        .requestMatchers("/financial_entry/**")
                         .authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
