@@ -102,12 +102,12 @@ public class FinEntry implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FinEntry finEntry = (FinEntry) o;
-        return Objects.equals(id, finEntry.id) && Objects.equals(name, finEntry.name) && Objects.equals(entryValue, finEntry.entryValue) && Objects.equals(date, finEntry.date) && entryType == finEntry.entryType;
+        FinEntry entry = (FinEntry) o;
+        return Objects.equals(id, entry.id) && Objects.equals(name, entry.name) && Objects.equals(entryValue, entry.entryValue) && Objects.equals(date, entry.date) && entryType == entry.entryType && Objects.equals(owner, entry.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, entryValue, date, entryType);
+        return Objects.hash(id, name, entryValue, date, entryType, owner);
     }
 }
