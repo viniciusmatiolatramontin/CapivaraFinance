@@ -1,2 +1,2 @@
 # CapivaraFinance
-REST API for budgeting web application
+CapivaraFinance Back-End
