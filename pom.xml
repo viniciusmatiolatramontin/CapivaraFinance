@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ezbudget</groupId>
-    <artifactId>EzBudgetAPI</artifactId>
+    <artifactId>CapivaraFinanceBackEnd</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>EzBudgetAPI</name>
     <description>EzBudgetAPI</description>
