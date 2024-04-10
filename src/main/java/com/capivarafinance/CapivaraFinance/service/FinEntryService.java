@@ -9,6 +9,7 @@ import com.capivarafinance.CapivaraFinance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +37,10 @@ public class FinEntryService {
         }
 
         return result;
+    }
+
+    public List<FinEntry> findEntriesByDate(UserAuth user, Date minDate, Date maxDate) {
+        return repo.findEntriesByDate(user, minDate, maxDate);
     }
 
     public FinEntry addEntry(UserAuth user, FinEntry entry) {
