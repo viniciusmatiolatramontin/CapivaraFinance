@@ -1,5 +1,6 @@
 package com.capivarafinance.CapivaraFinance.config;
 
+import com.capivarafinance.CapivaraFinance.converter.StringToDateConverter;
 import com.capivarafinance.CapivaraFinance.converter.StringToEnumConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -10,5 +11,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToEnumConverter());
+        registry.addConverter(new StringToDateConverter());
     }
 }

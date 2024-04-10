@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,13 @@ public class FinEntryController {
     public ResponseEntity<FinEntry> findEntryById(@AuthenticationPrincipal UserAuth user,
                                                   @PathVariable("id") Long id) throws EntryNotFoundException {
         return new ResponseEntity<FinEntry>(service.findEntryById(user, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/byDate/{minDate}/{maxDate}")
+    public ResponseEntity<List<FinEntry>> findEntriesByDate(@AuthenticationPrincipal UserAuth user,
+                                                            @PathVariable("minDate") Date minDate,
+                                                            @PathVariable("maxDate") Date maxDate) {
+        return new ResponseEntity<List<FinEntry>>(service.findEntriesByDate(user, minDate, maxDate), HttpStatus.OK);
     }
 
     @PostMapping
