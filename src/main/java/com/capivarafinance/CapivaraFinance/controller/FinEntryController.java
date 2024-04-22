@@ -50,4 +50,15 @@ public class FinEntryController {
                                              @RequestBody FinEntry entry) {
         return new ResponseEntity<FinEntry>(service.addEntry(user, entry), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FinEntry> updateEntry(@AuthenticationPrincipal UserAuth user,
+                                                @RequestBody FinEntry entry, @PathVariable("id") Long id) throws EntryNotFoundException {
+        return new ResponseEntity<FinEntry>(service.updateEntry(user, entry, id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<FinEntry> removeEntry(@AuthenticationPrincipal UserAuth user, @PathVariable("id") Long id) throws EntryNotFoundException {
+        return new ResponseEntity<FinEntry>(service.removeEntry(user, id), HttpStatus.OK);
+    }
 }
