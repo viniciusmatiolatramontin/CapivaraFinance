@@ -57,4 +57,49 @@ public class FinEntryService {
 
         return repo.save(entry_saved);
     }
+
+    public FinEntry updateEntry(UserAuth user, FinEntry entry, Long id) throws EntryNotFoundException {
+        FinEntry data = this.findEntryById(user, id);
+        Double dataValueBefore = data.getEntryValue();
+
+        data.setDate(entry.getDate());
+        data.setEntryValue(entry.getEntryValue());
+        data.setName(entry.getName());
+
+        double balance = 0.0;
+
+        if (data.getEntryType().toString().equalsIgnoreCase("expense")) {
+            balance = user.getBalance() - (data.getEntryValue() - dataValueBefore);
+        } else {
+            balance = user.getBalance() + (data.getEntryValue() - dataValueBefore);
+        }
+
+        user.setBalance(balance);
+
+        userRepo.save(user);
+        data.setOwner(user);
+
+        return repo.save(data);
+    }
+
+    public FinEntry removeEntry(UserAuth user, Long id) throws EntryNotFoundException {
+        FinEntry result = repo.findEntryById(user, id);
+
+        if (result == null) {
+            throw new EntryNotFoundException("Erro: Dado não encontrado");
+        }
+
+        repo.delete(result);
+
+        if (result.getEntryType().toString().equalsIgnoreCase("expense")) {
+            user.setBalance(user.getBalance() + result.getEntryValue());
+        } else {
+            user.setBalance(user.getBalance() - result.getEntryValue());
+        }
+
+        userRepo.save(user);
+        result.setOwner(user);
+
+        return result;
+    }
 }
